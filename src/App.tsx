@@ -1,31 +1,19 @@
-import { useTranslation } from 'react-i18next';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import ServicesPage from './pages/ServicesPage';
+import InfrastructurePage from './pages/InfrastructurePage';
+import LogsPage from './pages/LogsPage';
 
-const App = () => {
-  const { t, i18n } = useTranslation();
-
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
-
-  return (
-    <div className="flex h-screen w-screen justify-center items-center"> { /* DON'T REMOVE */}
-      <div className="flex flex-col items-center space-y-4">
-        <div>
-          <p className='text-5xl'>Boilerplate React</p>
-        </div> 
- 
-        <h1>{t('welcome')}</h1>
-        <div className="flex gap-2 mt-2">
-          <button onClick={() => changeLanguage('fr')} className="px-2 py-1 bg-white text-blue-500 rounded">
-            Français
-          </button>
-          <button onClick={() => changeLanguage('en')} className="px-2 py-1 bg-white text-blue-500 rounded">
-            English
-          </button>
-        </div>
-      </div>
-    </div>
-  )
+export default function App() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/services" element={<ServicesPage />} />
+                <Route path="/infrastructure" element={<InfrastructurePage />} />
+                <Route path="/logs" element={<LogsPage />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
-
-export default App
