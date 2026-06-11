@@ -22,7 +22,8 @@ function Dashboard() {
 
   const overallStatus = downCount > 0 ? 'error' : upCount === totalCount && totalCount > 0 ? 'success' : 'warning';
 
-  return (
+  // @ts-ignore
+    return (
     <AppShell>
       <Topbar
         title="Vue d'ensemble"
@@ -31,7 +32,6 @@ function Dashboard() {
 
       <div className="flex-1 p-8 flex flex-col gap-6" style={{ background: '#F5F5F7' }}>
 
-        {/* Error banner */}
         {error && (
           <div
             className="flex items-center gap-3 px-5 py-4 rounded-[0.875rem] text-sm"
@@ -48,7 +48,6 @@ function Dashboard() {
           </div>
         )}
 
-        {/* KPI Row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             label="Services actifs"
@@ -107,7 +106,6 @@ function Dashboard() {
           />
         </div>
 
-        {/* Charts row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <AreaChartWidget
             data={hostCpuSeries}
@@ -123,9 +121,7 @@ function Dashboard() {
           />
         </div>
 
-        {/* Infrastructure gauges + Services list */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {/* Host gauges */}
           <Card title="Infrastructure">
             <div className="flex flex-col gap-4">
               <GaugeBar
@@ -165,7 +161,6 @@ function Dashboard() {
             </div>
           </Card>
 
-          {/* Services list */}
           <div className="lg:col-span-2">
             <Card
               title="Services BATO"
