@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { observer } from 'mobx-react';
-import Topbar from "../components/Topbar.tsx";
-import {metricsStore} from "../stores/metrics.store.ts";
-import AppShell from "../layout/AppShell.tsx";
+import { metricsStore } from '../stores/metrics.store.ts';
 import {formatMB, formatPercent} from "../lib/formatters.ts";
+import AppShell from "../layout/AppShell.tsx";
+import Topbar from "../components/Topbar.tsx";
 
 
 function ServicesPage() {
@@ -36,6 +36,7 @@ function ServicesPage() {
                   className="rounded-[0.875rem] p-5 flex flex-col gap-4"
                   style={{ background: '#FFFFFF', border: '1px solid #E5E5EA', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}
                 >
+                  {/* Header */}
                   <div className="flex items-start justify-between">
                     <div>
                       <p style={{ fontWeight: 700, fontSize: 15, color: '#0A0A0A', margin: 0 }}>{s.label}</p>

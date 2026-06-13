@@ -22,7 +22,6 @@ function Dashboard() {
 
   const overallStatus = downCount > 0 ? 'error' : upCount === totalCount && totalCount > 0 ? 'success' : 'warning';
 
-  // @ts-ignore
     return (
     <AppShell>
       <Topbar
