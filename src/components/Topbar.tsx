@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react';
-import {formatTime} from "../lib/formatters.ts";
 import {metricsStore} from "../stores/metrics.store.ts";
+import {formatTime} from "../lib/formatters.ts";
+
 
 interface Props { title: string; subtitle?: string; }
 
@@ -28,7 +29,7 @@ function Topbar({ title, subtitle }: Props) {
         {error && (
           <span
             className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium"
-            style={{ background: '#FF3B30/10', color: '#FF3B30' }}
+            style={{ color: '#FF3B30', background: 'rgba(255,59,48,0.1)' }}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B30]" />
             Prometheus inaccessible
