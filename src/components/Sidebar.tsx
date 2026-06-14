@@ -63,12 +63,11 @@ export default function Sidebar() {
         flexShrink: 0,
       }}
     >
-      {/* Logo */}
       <div
         className="flex items-center gap-3 px-5"
         style={{ height: 64, borderBottom: '1px solid #E5E5EA' }}
       >
-        <img src="/logo.png" alt="UrbanFlow" style={{ width: 32, height: 32, objectFit: 'contain' }} />
+        <img src="/logo.png" alt="UrbanFlow" style={{ width: 32, height: 32, objectFit: 'cover', borderRadius: '0.5rem' }} />
         <div>
           <p style={{ fontWeight: 700, fontSize: 15, color: '#0A0A0A', margin: 0, lineHeight: 1.2 }}>
             UrbanFlow
@@ -79,7 +78,6 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* Nav */}
       <nav className="flex flex-col gap-1 p-3 flex-1">
         {NAV.map(item => (
           <NavLink
@@ -100,7 +98,6 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* Footer */}
       <div
         className="px-5 py-4"
         style={{ borderTop: '1px solid #E5E5EA' }}
