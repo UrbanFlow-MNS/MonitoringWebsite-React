@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { metricsStore } from '../stores/metrics.store';
 import StatCard from "../components/StatCard.tsx";
@@ -9,14 +9,48 @@ import AreaChartWidget from "../components/AreaChartWidget.tsx";
 import Card from "../components/Card.tsx";
 import GaugeBar from "../components/GaugeBar.tsx";
 
+const pillActive: React.CSSProperties = {
+  background: '#6912E2',
+  color: '#FFFFFF',
+  borderRadius: 9999,
+  fontSize: 12,
+  fontWeight: 500,
+  padding: '4px 12px',
+  border: 'none',
+  cursor: 'pointer',
+};
+
+const pillInactive: React.CSSProperties = {
+  background: '#FFFFFF',
+  color: '#6E6E73',
+  borderRadius: 9999,
+  fontSize: 12,
+  fontWeight: 500,
+  padding: '4px 12px',
+  border: '1px solid #E5E5EA',
+  cursor: 'pointer',
+};
 
 function InfrastructurePage() {
+  const [range, setRange] = useState<'day' | 'week'>('day');
+
   useEffect(() => {
     metricsStore.startPolling(15_000);
     return () => metricsStore.stopPolling();
   }, []);
 
-  const { host, hostCpuSeries, hostMemSeries, hostCpuWeekSeries, hostMemWeekSeries, isLoading } = metricsStore;
+  const {
+    host,
+    hostCpuSeries, hostMemSeries,
+    hostCpuDaySeries, hostMemDaySeries,
+    hostCpuWeekSeries, hostMemWeekSeries,
+    isLoading,
+  } = metricsStore;
+
+  const cpuData = range === 'day' ? hostCpuDaySeries : hostCpuWeekSeries;
+  const memData = range === 'day' ? hostMemDaySeries : hostMemWeekSeries;
+  const cpuTitle = range === 'day' ? 'CPU hôte — dernier jour' : 'CPU hôte — dernière semaine';
+  const memTitle = range === 'day' ? 'RAM hôte — dernier jour' : 'RAM hôte — dernière semaine';
 
   return (
     <AppShell>
@@ -35,9 +69,18 @@ function InfrastructurePage() {
           <AreaChartWidget data={hostMemSeries} title="RAM hôte — dernière heure" color="#007AFF" format={v => `${v.toFixed(1)}%`} height={200} />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <AreaChartWidget data={hostCpuWeekSeries} title="CPU hôte — dernière semaine" color="#6912E2" format={v => `${v.toFixed(1)}%`} height={200} />
-          <AreaChartWidget data={hostMemWeekSeries} title="RAM hôte — dernière semaine" color="#007AFF" format={v => `${v.toFixed(1)}%`} height={200} />
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <span style={{ fontSize: 14, fontWeight: 600, color: '#0A0A0A' }}>Historique</span>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button style={range === 'day' ? pillActive : pillInactive} onClick={() => setRange('day')}>Jour</button>
+              <button style={range === 'week' ? pillActive : pillInactive} onClick={() => setRange('week')}>Semaine</button>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <AreaChartWidget data={cpuData} title={cpuTitle} color="#6912E2" format={v => `${v.toFixed(1)}%`} height={200} />
+            <AreaChartWidget data={memData} title={memTitle} color="#007AFF" format={v => `${v.toFixed(1)}%`} height={200} />
+          </div>
         </div>
 
         <Card title="Utilisation des ressources">

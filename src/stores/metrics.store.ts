@@ -33,6 +33,8 @@ export class MetricsStore {
 
   hostCpuSeries: TimeSeriesPoint[] = [];
   hostMemSeries: TimeSeriesPoint[] = [];
+  hostCpuDaySeries: TimeSeriesPoint[] = [];
+  hostMemDaySeries: TimeSeriesPoint[] = [];
   hostCpuWeekSeries: TimeSeriesPoint[] = [];
   hostMemWeekSeries: TimeSeriesPoint[] = [];
 
@@ -60,12 +62,14 @@ export class MetricsStore {
       const since = now - 3600;
 
       const weekStart = now - 7 * 24 * 3600;
+      const dayStart = now - 24 * 3600;
 
       const [
         targets, allCpu, allMem,
         hostCpu, hostMemUsed, hostMemTotal, hostDisk, hostNetIn, hostNetOut,
         hostCpuRange, hostMemRange,
         hostCpuWeekRange, hostMemWeekRange,
+        hostCpuDayRange, hostMemDayRange,
       ] = await Promise.allSettled([
         queryTargets(),
         queryInstant(Q.allCpu()),
@@ -80,6 +84,8 @@ export class MetricsStore {
         queryRange(Q.hostMemRange(), since, now, '60s'),
         queryRange(Q.hostCpuRange(), weekStart, now, '1h'),
         queryRange(Q.hostMemRange(), weekStart, now, '1h'),
+        queryRange(Q.hostCpuRange(), dayStart, now, '15m'),
+        queryRange(Q.hostMemRange(), dayStart, now, '15m'),
       ]);
 
       runInAction(() => {
@@ -125,6 +131,8 @@ export class MetricsStore {
 
         this.hostCpuSeries = this.toSeries(hostCpuRange);
         this.hostMemSeries = this.toSeries(hostMemRange);
+        this.hostCpuDaySeries = this.toSeries(hostCpuDayRange);
+        this.hostMemDaySeries = this.toSeries(hostMemDayRange);
         this.hostCpuWeekSeries = this.toSeries(hostCpuWeekRange);
         this.hostMemWeekSeries = this.toSeries(hostMemWeekRange);
         this.lastUpdated = new Date();
