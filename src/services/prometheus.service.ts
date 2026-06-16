@@ -38,8 +38,6 @@ export async function queryTargets(): Promise<{
   return data.data;
 }
 
-// Requêtes prometheus
-
 export const Q = {
   allUp:          () => `up`,
   serviceUp:      (job: string) => `up{job="${job}"}`,

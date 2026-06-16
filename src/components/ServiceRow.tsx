@@ -1,6 +1,5 @@
-import {ServiceStatus} from "../stores/metrics.store.ts";
-import {formatMB, formatPercent} from "../lib/formatters.ts";
-
+import { cn, formatMB, formatPercent } from "../lib/formatters";
+import { ServiceStatus } from "../stores/metrics.store";
 
 interface Props {
   service: ServiceStatus;
@@ -10,53 +9,73 @@ export default function ServiceRow({ service }: Props) {
   const { label, isUp, cpuPercent, memMB, eventLoopMs } = service;
 
   return (
-    <div
-      className="flex items-center gap-4 px-4 py-3 rounded-[0.625rem] transition-colors duration-150 hover:bg-[#F5F5F7]"
-      style={{ minHeight: 52 }}
-    >
-      <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 32 }}>
+    <div className="flex min-h-13 items-center gap-4 px-4 py-3 transition-colors duration-150 hover:bg-(--color-subtle)">
+      <div className="flex w-8 shrink-0 items-center justify-center">
         <span
-          className="w-2.5 h-2.5 rounded-full"
-          style={{
-            background: isUp ? '#34C759' : '#FF3B30',
-            boxShadow: isUp
-              ? '0 0 0 3px rgba(52,199,89,0.15)'
-              : '0 0 0 3px rgba(255,59,48,0.15)',
-          }}
+          className={cn(
+            "h-2.5 w-2.5 rounded-full",
+            isUp
+              ? "bg-(--color-success) shadow-[0_0_0_3px_rgba(52,199,89,0.15)]"
+              : "bg-(--color-error) shadow-[0_0_0_3px_rgba(255,59,48,0.15)]"
+          )}
         />
       </div>
 
-      <div style={{ flex: '0 0 140px' }}>
-        <p style={{ fontWeight: 600, fontSize: 13, color: '#0A0A0A', margin: 0 }}>{label}</p>
-        <p style={{ fontSize: 11, color: '#AEAEB2', margin: 0 }}>
-          {isUp ? 'En ligne' : 'Hors ligne'}
+      <div className="w-35 shrink-0">
+        <p className="m-0 text-[13px] font-semibold text-(--color-fg)">{label}</p>
+        <p className="m-0 text-[11px] text-[#AEAEB2]">
+          {isUp ? "En ligne" : "Hors ligne"}
         </p>
       </div>
 
-      <div className="flex-1 flex items-center gap-6">
-        <Metric label="CPU" value={cpuPercent !== null ? formatPercent(cpuPercent) : '—'} warn={cpuPercent !== null && cpuPercent > 70} />
-        <Metric label="Mémoire" value={memMB !== null ? formatMB(memMB) : '—'} warn={memMB !== null && memMB > 400} />
-        <Metric label="Event Loop" value={eventLoopMs !== null ? `${(eventLoopMs * 1000).toFixed(1)} ms` : '—'} warn={eventLoopMs !== null && eventLoopMs * 1000 > 50} />
+      <div className="flex flex-1 items-center gap-6">
+        <Metric
+          label="CPU"
+          value={cpuPercent !== null ? formatPercent(cpuPercent) : "—"}
+          warn={cpuPercent !== null && cpuPercent > 70}
+        />
+        <Metric
+          label="Mémoire"
+          value={memMB !== null ? formatMB(memMB) : "—"}
+          warn={memMB !== null && memMB > 400}
+        />
+        <Metric
+          label="Event Loop"
+          value={eventLoopMs !== null ? `${(eventLoopMs * 1000).toFixed(1)} ms` : "—"}
+          warn={eventLoopMs !== null && eventLoopMs * 1000 > 50}
+        />
       </div>
 
       <span
-        className="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-medium"
-        style={{
-          background: isUp ? 'rgba(52,199,89,0.1)' : 'rgba(255,59,48,0.1)',
-          color: isUp ? '#34C759' : '#FF3B30',
-        }}
+        className={cn(
+          "shrink-0 rounded-full px-2.5 py-1 text-xs font-medium",
+          isUp
+            ? "bg-[rgba(52,199,89,0.1)] text-(--color-success)"
+            : "bg-[rgba(255,59,48,0.1)] text-(--color-error)"
+        )}
       >
-        {isUp ? '● Actif' : '● Inactif'}
+        {isUp ? "● Actif" : "● Inactif"}
       </span>
     </div>
   );
 }
 
-function Metric({ label, value, warn }: { label: string; value: string; warn: boolean }) {
+interface MetricProps {
+  label: string;
+  value: string;
+  warn: boolean;
+}
+
+function Metric({ label, value, warn }: MetricProps) {
   return (
-    <div style={{ minWidth: 72 }}>
-      <p style={{ fontSize: 10, color: '#AEAEB2', margin: 0, letterSpacing: '0.04em' }}>{label}</p>
-      <p style={{ fontSize: 13, fontWeight: 600, color: warn ? '#FF9F0A' : '#0A0A0A', margin: 0 }}>
+    <div className="min-w-18">
+      <p className="m-0 text-[10px] tracking-[0.04em] text-[#AEAEB2]">{label}</p>
+      <p
+        className={cn(
+          "m-0 text-[13px] font-semibold",
+          warn ? "text-(--color-warning)" : "text-(--color-fg)"
+        )}
+      >
         {value}
       </p>
     </div>

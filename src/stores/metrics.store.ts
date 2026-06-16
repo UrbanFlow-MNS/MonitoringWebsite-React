@@ -33,6 +33,10 @@ export class MetricsStore {
 
   hostCpuSeries: TimeSeriesPoint[] = [];
   hostMemSeries: TimeSeriesPoint[] = [];
+  hostCpuDaySeries: TimeSeriesPoint[] = [];
+  hostMemDaySeries: TimeSeriesPoint[] = [];
+  hostCpuWeekSeries: TimeSeriesPoint[] = [];
+  hostMemWeekSeries: TimeSeriesPoint[] = [];
 
   isLoading = false;
   error: string | null = null;
@@ -57,10 +61,15 @@ export class MetricsStore {
       const now = Math.floor(Date.now() / 1000);
       const since = now - 3600;
 
+      const weekStart = now - 7 * 24 * 3600;
+      const dayStart = now - 24 * 3600;
+
       const [
         targets, allCpu, allMem,
         hostCpu, hostMemUsed, hostMemTotal, hostDisk, hostNetIn, hostNetOut,
         hostCpuRange, hostMemRange,
+        hostCpuWeekRange, hostMemWeekRange,
+        hostCpuDayRange, hostMemDayRange,
       ] = await Promise.allSettled([
         queryTargets(),
         queryInstant(Q.allCpu()),
@@ -73,10 +82,13 @@ export class MetricsStore {
         queryInstant(Q.hostNetOut()),
         queryRange(Q.hostCpuRange(), since, now, '60s'),
         queryRange(Q.hostMemRange(), since, now, '60s'),
+        queryRange(Q.hostCpuRange(), weekStart, now, '1h'),
+        queryRange(Q.hostMemRange(), weekStart, now, '1h'),
+        queryRange(Q.hostCpuRange(), dayStart, now, '15m'),
+        queryRange(Q.hostMemRange(), dayStart, now, '15m'),
       ]);
 
       runInAction(() => {
-        // ── Services ──────────────────────────────────────────────────────
         const activeTargets = targets.status === 'fulfilled' ? targets.value.activeTargets : [];
         const cpuMap = this.buildJobMap(allCpu);
         const memMap = this.buildJobMap(allMem);
@@ -99,7 +111,6 @@ export class MetricsStore {
           };
         });
 
-        // ── Host ──────────────────────────────────────────────────────────
         const hCpu      = this.first(hostCpu);
         const hMemUsed  = this.first(hostMemUsed);
         const hMemTotal = this.first(hostMemTotal);
@@ -118,9 +129,12 @@ export class MetricsStore {
           netOutKBs:   hNetOut !== null ? hNetOut / 1024 : null,
         };
 
-        // ── Series ────────────────────────────────────────────────────────
         this.hostCpuSeries = this.toSeries(hostCpuRange);
         this.hostMemSeries = this.toSeries(hostMemRange);
+        this.hostCpuDaySeries = this.toSeries(hostCpuDayRange);
+        this.hostMemDaySeries = this.toSeries(hostMemDayRange);
+        this.hostCpuWeekSeries = this.toSeries(hostCpuWeekRange);
+        this.hostMemWeekSeries = this.toSeries(hostMemWeekRange);
         this.lastUpdated = new Date();
         this.isLoading = false;
       });

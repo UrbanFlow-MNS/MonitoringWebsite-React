@@ -1,3 +1,4 @@
+import {cn} from "../lib/formatters.ts";
 import {STATUS_COLORS, statusColor} from "../lib/statusColorHelper.ts";
 
 interface Props {
@@ -21,23 +22,17 @@ export default function GaugeBar({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span style={{ fontSize: 12, fontWeight: 500, color: '#6E6E73' }}>{label}</span>
-        <span style={{ fontSize: 13, fontWeight: 700, color: value !== null ? colors.text.replace('text-[', '').replace(']', '') : '#AEAEB2' }}>
+        <span className="text-xs font-medium text-(--color-muted)">{label}</span>
+        <span className={cn('text-[13px] font-bold', value !== null ? colors.text : 'text-[#AEAEB2]')}>
           {value !== null
             ? (format ? format(value) : `${value.toFixed(1)} ${unit}`)
             : '—'}
         </span>
       </div>
-      <div
-        className="rounded-full overflow-hidden"
-        style={{ height: 6, background: '#F5F5F7' }}
-      >
+      <div className="rounded-full overflow-hidden h-1.5 bg-(--color-subtle)">
         <div
-          className="h-full rounded-full transition-all duration-500"
-          style={{
-            width: `${pct}%`,
-            background: level === 'error' ? '#FF3B30' : level === 'warning' ? '#FF9F0A' : '#34C759',
-          }}
+          className={cn('h-full rounded-full transition-all duration-500', colors.dot)}
+          style={{ width: `${pct}%` }}
         />
       </div>
     </div>

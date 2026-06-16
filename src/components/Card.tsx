@@ -7,22 +7,11 @@ interface Props {
 
 export default function Card({ title, action, children, noPadding = false }: Props) {
   return (
-    <div
-      className="rounded-[0.875rem] flex flex-col"
-      style={{
-        background: '#FFFFFF',
-        border: '1px solid #E5E5EA',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-        overflow: 'hidden',
-      }}
-    >
+    <div className="rounded-[0.875rem] flex flex-col bg-(--color-bg) border border-(--color-border) shadow-[0_1px_4px_rgba(0,0,0,0.06)] overflow-hidden">
       {(title || action) && (
-        <div
-          className="flex items-center justify-between px-5 py-4"
-          style={{ borderBottom: '1px solid #E5E5EA' }}
-        >
+        <div className="flex items-center justify-between px-5 py-4 border-b border-(--color-border)">
           {title && (
-            <h2 style={{ fontWeight: 600, fontSize: 14, color: '#0A0A0A', margin: 0 }}>
+            <h2 className="text-sm font-semibold text-(--color-fg) m-0">
               {title}
             </h2>
           )}
