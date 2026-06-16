@@ -9,7 +9,7 @@ export default function ServiceRow({ service }: Props) {
   const { label, isUp, cpuPercent, memMB, eventLoopMs } = service;
 
   return (
-    <div className="flex min-h-13 items-center gap-4 rounded-[0.625rem] px-4 py-3 transition-colors duration-150 hover:bg-(--color-subtle)">
+    <div className="flex min-h-13 items-center gap-4 px-4 py-3 transition-colors duration-150 hover:bg-(--color-subtle)">
       <div className="flex w-8 shrink-0 items-center justify-center">
         <span
           className={cn(
