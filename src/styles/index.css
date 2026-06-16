@@ -84,6 +84,3 @@ h1 {
 ::-webkit-scrollbar-track { background: var(--color-subtle); }
 ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 9999px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
-
-.recharts-text { font-family: 'Outfit', sans-serif !important; }
-.recharts-cartesian-axis-tick-value { fill: var(--color-muted); font-size: 11px; }
