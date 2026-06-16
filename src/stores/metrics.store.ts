@@ -33,6 +33,8 @@ export class MetricsStore {
 
   hostCpuSeries: TimeSeriesPoint[] = [];
   hostMemSeries: TimeSeriesPoint[] = [];
+  hostCpuWeekSeries: TimeSeriesPoint[] = [];
+  hostMemWeekSeries: TimeSeriesPoint[] = [];
 
   isLoading = false;
   error: string | null = null;
@@ -57,10 +59,13 @@ export class MetricsStore {
       const now = Math.floor(Date.now() / 1000);
       const since = now - 3600;
 
+      const weekStart = now - 7 * 24 * 3600;
+
       const [
         targets, allCpu, allMem,
         hostCpu, hostMemUsed, hostMemTotal, hostDisk, hostNetIn, hostNetOut,
         hostCpuRange, hostMemRange,
+        hostCpuWeekRange, hostMemWeekRange,
       ] = await Promise.allSettled([
         queryTargets(),
         queryInstant(Q.allCpu()),
@@ -73,6 +78,8 @@ export class MetricsStore {
         queryInstant(Q.hostNetOut()),
         queryRange(Q.hostCpuRange(), since, now, '60s'),
         queryRange(Q.hostMemRange(), since, now, '60s'),
+        queryRange(Q.hostCpuRange(), weekStart, now, '1h'),
+        queryRange(Q.hostMemRange(), weekStart, now, '1h'),
       ]);
 
       runInAction(() => {
@@ -121,6 +128,8 @@ export class MetricsStore {
         // ── Series ────────────────────────────────────────────────────────
         this.hostCpuSeries = this.toSeries(hostCpuRange);
         this.hostMemSeries = this.toSeries(hostMemRange);
+        this.hostCpuWeekSeries = this.toSeries(hostCpuWeekRange);
+        this.hostMemWeekSeries = this.toSeries(hostMemWeekRange);
         this.lastUpdated = new Date();
         this.isLoading = false;
       });
