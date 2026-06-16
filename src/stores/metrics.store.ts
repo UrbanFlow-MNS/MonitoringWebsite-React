@@ -83,7 +83,6 @@ export class MetricsStore {
       ]);
 
       runInAction(() => {
-        // ── Services ──────────────────────────────────────────────────────
         const activeTargets = targets.status === 'fulfilled' ? targets.value.activeTargets : [];
         const cpuMap = this.buildJobMap(allCpu);
         const memMap = this.buildJobMap(allMem);
@@ -106,7 +105,6 @@ export class MetricsStore {
           };
         });
 
-        // ── Host ──────────────────────────────────────────────────────────
         const hCpu      = this.first(hostCpu);
         const hMemUsed  = this.first(hostMemUsed);
         const hMemTotal = this.first(hostMemTotal);
@@ -125,7 +123,6 @@ export class MetricsStore {
           netOutKBs:   hNetOut !== null ? hNetOut / 1024 : null,
         };
 
-        // ── Series ────────────────────────────────────────────────────────
         this.hostCpuSeries = this.toSeries(hostCpuRange);
         this.hostMemSeries = this.toSeries(hostMemRange);
         this.hostCpuWeekSeries = this.toSeries(hostCpuWeekRange);
