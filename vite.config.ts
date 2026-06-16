@@ -19,6 +19,17 @@ export default defineConfig({
       'react-router-dom-v5-compat': resolve(__dirname, 'src/stubs/react-router-dom-v5-compat.ts'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-grafana': ['@grafana/ui', '@grafana/data', 'uplot'],
+          'vendor-state': ['mobx', 'mobx-react'],
+        },
+      },
+    },
+  },
   test: {
     coverage: {
       reporter: ['text', 'lcov']
