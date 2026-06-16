@@ -29,6 +29,9 @@ export default defineConfig({
     tailwindcss(),
     reactRouterV5CompatStub(),
   ],
+  optimizeDeps: {
+    exclude: ['react-router-dom-v5-compat'],
+  },
   build: {
     rollupOptions: {
       output: {
