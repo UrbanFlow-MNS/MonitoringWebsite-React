@@ -53,26 +53,14 @@ const NAV = [
 
 export default function Sidebar() {
   return (
-    <aside
-      className="flex flex-col"
-      style={{
-        width: 232,
-        minHeight: '100vh',
-        background: '#FFFFFF',
-        borderRight: '1px solid #E5E5EA',
-        flexShrink: 0,
-      }}
-    >
-      <div
-        className="flex items-center gap-3 px-5"
-        style={{ height: 64, borderBottom: '1px solid #E5E5EA' }}
-      >
-        <img src="/logo.png" alt="UrbanFlow" style={{ width: 32, height: 32, objectFit: 'cover', borderRadius: '0.5rem' }} />
+    <aside className="flex flex-col w-[232px] min-h-screen bg-(--color-bg) border-r border-(--color-border) shrink-0">
+      <div className="flex items-center gap-3 px-5 h-16 border-b border-(--color-border)">
+        <img src="/logo.png" alt="UrbanFlow" className="w-8 h-8 object-cover rounded-lg" />
         <div>
-          <p style={{ fontWeight: 700, fontSize: 15, color: '#0A0A0A', margin: 0, lineHeight: 1.2 }}>
+          <p className="font-bold text-[15px] text-(--color-fg) m-0 leading-[1.2]">
             UrbanFlow
           </p>
-          <p style={{ fontSize: 11, color: '#6E6E73', margin: 0, letterSpacing: '0.04em' }}>
+          <p className="text-[11px] text-(--color-muted) m-0 tracking-[0.04em]">
             MONITORING
           </p>
         </div>
@@ -88,7 +76,7 @@ export default function Sidebar() {
                 'flex items-center gap-3 px-3 py-2.5 rounded-[0.625rem] text-sm font-medium transition-all duration-150 select-none',
                 isActive
                   ? 'bg-[#6912E2]/10 text-[#6912E2]'
-                  : 'text-[#6E6E73] hover:bg-[#F5F5F7] hover:text-[#0A0A0A]',
+                  : 'text-(--color-muted) hover:bg-(--color-subtle) hover:text-(--color-fg)',
               )
             }
           >
@@ -98,11 +86,8 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div
-        className="px-5 py-4"
-        style={{ borderTop: '1px solid #E5E5EA' }}
-      >
-        <p style={{ fontSize: 11, color: '#AEAEB2', margin: 0 }}>
+      <div className="px-5 py-4 border-t border-(--color-border)">
+        <p className="text-[11px] text-[#AEAEB2] m-0">
           v1.0 · Prometheus
         </p>
       </div>

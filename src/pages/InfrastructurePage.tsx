@@ -5,31 +5,10 @@ import StatCard from "../components/StatCard.tsx";
 import AppShell from "../layout/AppShell.tsx";
 import Topbar from "../components/Topbar.tsx";
 import {formatGB, formatPercent} from "../lib/formatters.ts";
+import {cn} from "../lib/formatters.ts";
 import AreaChartWidget from "../components/AreaChartWidget.tsx";
 import Card from "../components/Card.tsx";
 import GaugeBar from "../components/GaugeBar.tsx";
-
-const pillActive: React.CSSProperties = {
-  background: '#6912E2',
-  color: '#FFFFFF',
-  borderRadius: 9999,
-  fontSize: 12,
-  fontWeight: 500,
-  padding: '4px 12px',
-  border: 'none',
-  cursor: 'pointer',
-};
-
-const pillInactive: React.CSSProperties = {
-  background: '#FFFFFF',
-  color: '#6E6E73',
-  borderRadius: 9999,
-  fontSize: 12,
-  fontWeight: 500,
-  padding: '4px 12px',
-  border: '1px solid #E5E5EA',
-  cursor: 'pointer',
-};
 
 function InfrastructurePage() {
   const [range, setRange] = useState<'day' | 'week'>('day');
@@ -55,7 +34,7 @@ function InfrastructurePage() {
   return (
     <AppShell>
       <Topbar title="Infrastructure" subtitle="Métriques serveur physique — node_exporter" />
-      <div className="flex-1 p-8 flex flex-col gap-6" style={{ background: '#F5F5F7' }}>
+      <div className="flex-1 p-8 flex flex-col gap-6 bg-(--color-subtle)">
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard label="CPU" value={formatPercent(host.cpuPercent)} status={host.cpuPercent !== null && host.cpuPercent > 90 ? 'error' : host.cpuPercent !== null && host.cpuPercent > 70 ? 'warning' : 'success'} loading={isLoading && host.cpuPercent === null} />
@@ -71,10 +50,30 @@ function InfrastructurePage() {
 
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <span style={{ fontSize: 14, fontWeight: 600, color: '#0A0A0A' }}>Historique</span>
-            <div style={{ display: 'flex', gap: 6 }}>
-              <button style={range === 'day' ? pillActive : pillInactive} onClick={() => setRange('day')}>Jour</button>
-              <button style={range === 'week' ? pillActive : pillInactive} onClick={() => setRange('week')}>Semaine</button>
+            <span className="text-sm font-semibold text-(--color-fg)">Historique</span>
+            <div className="flex gap-1.5">
+              <button
+                onClick={() => setRange('day')}
+                className={cn(
+                  'rounded-full text-xs font-medium px-3 py-1 border-none cursor-pointer',
+                  range === 'day'
+                    ? 'bg-(--color-primary) text-white'
+                    : 'bg-(--color-bg) text-(--color-muted) border border-(--color-border)',
+                )}
+              >
+                Jour
+              </button>
+              <button
+                onClick={() => setRange('week')}
+                className={cn(
+                  'rounded-full text-xs font-medium px-3 py-1 border-none cursor-pointer',
+                  range === 'week'
+                    ? 'bg-(--color-primary) text-white'
+                    : 'bg-(--color-bg) text-(--color-muted) border border-(--color-border)',
+                )}
+              >
+                Semaine
+              </button>
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

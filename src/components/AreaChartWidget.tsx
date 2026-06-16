@@ -182,30 +182,23 @@ export default function AreaChartWidget({
       : null;
 
   return (
-    <div
-      className="rounded-[0.875rem] p-5"
-      style={{
-        background: '#FFFFFF',
-        border: '1px solid #E5E5EA',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-      }}
-    >
+    <div className="rounded-[0.875rem] p-5 bg-(--color-bg) border border-(--color-border) shadow-[0_1px_4px_rgba(0,0,0,0.06)]">
       <div className="flex items-baseline justify-between mb-4">
-        <p style={{ fontWeight: 600, fontSize: 13, color: '#0A0A0A', margin: 0 }}>{title}</p>
+        <p className="text-[13px] font-semibold text-(--color-fg) m-0">{title}</p>
         {lastValue !== null && (
-          <p style={{ fontSize: 12, color: '#6E6E73', margin: 0 }}>{lastValue}</p>
+          <p className="text-xs text-(--color-muted) m-0">{lastValue}</p>
         )}
       </div>
 
       {data.length === 0 ? (
         <div
-          className="flex items-center justify-center rounded-[0.625rem]"
-          style={{ height, background: '#F5F5F7' }}
+          className="flex items-center justify-center rounded-[0.625rem] bg-(--color-subtle)"
+          style={{ height }}
         >
-          <p style={{ fontSize: 12, color: '#AEAEB2' }}>Aucune donnée disponible</p>
+          <p className="text-xs text-[#AEAEB2]">Aucune donnée disponible</p>
         </div>
       ) : (
-        <div ref={containerRef} style={{ width: '100%' }} />
+        <div ref={containerRef} className="w-full" />
       )}
     </div>
   );

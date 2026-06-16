@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { metricsStore } from '../stores/metrics.store';
 import {statusColor} from "../lib/statusColorHelper.ts";
+import {cn} from "../lib/formatters.ts";
 import AppShell from "../layout/AppShell.tsx";
 import Topbar from "../components/Topbar.tsx";
 import StatCard from "../components/StatCard.tsx";
@@ -22,20 +23,17 @@ function Dashboard() {
 
   const overallStatus = downCount > 0 ? 'error' : upCount === totalCount && totalCount > 0 ? 'success' : 'warning';
 
-    return (
+  return (
     <AppShell>
       <Topbar
         title="Vue d'ensemble"
         subtitle="Surveillance en temps réel — rafraîchissement toutes les 15s"
       />
 
-      <div className="flex-1 p-8 flex flex-col gap-6" style={{ background: '#F5F5F7' }}>
+      <div className="flex-1 p-8 flex flex-col gap-6 bg-(--color-subtle)">
 
         {error && (
-          <div
-            className="flex items-center gap-3 px-5 py-4 rounded-[0.875rem] text-sm"
-            style={{ background: 'rgba(255,59,48,0.06)', border: '1px solid rgba(255,59,48,0.2)', color: '#FF3B30' }}
-          >
+          <div className="flex items-center gap-3 px-5 py-4 rounded-[0.875rem] text-sm bg-[rgba(255,59,48,0.06)] border border-[rgba(255,59,48,0.2)] text-(--color-error)">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="8" cy="8" r="7" stroke="#FF3B30" strokeWidth="1.5"/>
               <path d="M8 5v3.5M8 11h.01" stroke="#FF3B30" strokeWidth="1.5" strokeLinecap="round"/>
@@ -142,16 +140,16 @@ function Dashboard() {
                 format={v => `${v.toFixed(1)}%`}
               />
               {host.netInKBs !== null && (
-                <div className="pt-2" style={{ borderTop: '1px solid #E5E5EA' }}>
-                  <div className="flex justify-between text-xs" style={{ color: '#6E6E73' }}>
+                <div className="pt-2 border-t border-(--color-border)">
+                  <div className="flex justify-between text-xs text-(--color-muted)">
                     <span>Réseau ↓</span>
-                    <span style={{ fontWeight: 600, color: '#0A0A0A' }}>
+                    <span className="font-semibold text-(--color-fg)">
                       {host.netInKBs.toFixed(1)} KB/s
                     </span>
                   </div>
-                  <div className="flex justify-between text-xs mt-1" style={{ color: '#6E6E73' }}>
+                  <div className="flex justify-between text-xs mt-1 text-(--color-muted)">
                     <span>Réseau ↑</span>
-                    <span style={{ fontWeight: 600, color: '#0A0A0A' }}>
+                    <span className="font-semibold text-(--color-fg)">
                       {host.netOutKBs?.toFixed(1) ?? '—'} KB/s
                     </span>
                   </div>
@@ -166,11 +164,12 @@ function Dashboard() {
               noPadding
               action={
                 <span
-                  className="px-2.5 py-1 rounded-full text-xs font-medium"
-                  style={{
-                    background: overallStatus === 'success' ? 'rgba(52,199,89,0.1)' : 'rgba(255,59,48,0.1)',
-                    color: overallStatus === 'success' ? '#34C759' : '#FF3B30',
-                  }}
+                  className={cn(
+                    'px-2.5 py-1 rounded-full text-xs font-medium',
+                    overallStatus === 'success'
+                      ? 'bg-[rgba(52,199,89,0.1)] text-[#34C759]'
+                      : 'bg-[rgba(255,59,48,0.1)] text-[#FF3B30]',
+                  )}
                 >
                   {upCount}/{totalCount} actifs
                 </span>
@@ -180,21 +179,21 @@ function Dashboard() {
                 <div className="px-4 py-8 flex flex-col gap-3">
                   {[...Array(5)].map((_, i) => (
                     <div key={i} className="animate-pulse flex gap-4">
-                      <div className="w-8 h-8 rounded-full bg-[#F5F5F7]" />
+                      <div className="w-8 h-8 rounded-full bg-(--color-subtle)" />
                       <div className="flex-1 space-y-2">
-                        <div className="h-3 w-32 rounded bg-[#E5E5EA]" />
-                        <div className="h-2 w-20 rounded bg-[#F5F5F7]" />
+                        <div className="h-3 w-32 rounded bg-(--color-border)" />
+                        <div className="h-2 w-20 rounded bg-(--color-subtle)" />
                       </div>
                     </div>
                   ))}
                 </div>
               ) : services.length === 0 ? (
                 <div className="px-4 py-12 flex flex-col items-center gap-2">
-                  <p style={{ fontSize: 13, color: '#6E6E73' }}>Aucun service détecté</p>
-                  <p style={{ fontSize: 12, color: '#AEAEB2' }}>Vérifiez la connexion Prometheus</p>
+                  <p className="text-[13px] text-(--color-muted)">Aucun service détecté</p>
+                  <p className="text-xs text-[#AEAEB2]">Vérifiez la connexion Prometheus</p>
                 </div>
               ) : (
-                <div className="divide-y" style={{ '--tw-divide-opacity': 1 } as React.CSSProperties}>
+                <div className="divide-y divide-(--color-border)">
                   {services.map(s => (
                     <ServiceRow key={s.job} service={s} />
                   ))}
