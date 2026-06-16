@@ -3,22 +3,32 @@
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vitest/config'
-import { fileURLToPath } from 'url'
-import { dirname, resolve } from 'path'
+import type { Plugin } from 'vite'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+function reactRouterV5CompatStub(): Plugin {
+  const RESOLVED_ID = '\0react-router-dom-v5-compat';
+  return {
+    name: 'react-router-dom-v5-compat-stub',
+    enforce: 'pre',
+    resolveId(id) {
+      if (id === 'react-router-dom-v5-compat' || id.startsWith('react-router-dom-v5-compat/')) {
+        return RESOLVED_ID;
+      }
+    },
+    load(id) {
+      if (id === RESOLVED_ID) {
+        return `export { Link, NavLink, useNavigate as useHistory, useLocation, useParams, useMatch, Navigate, Outlet, Route, Routes } from 'react-router-dom';`;
+      }
+    },
+  };
+}
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss()
+    tailwindcss(),
+    reactRouterV5CompatStub(),
   ],
-  resolve: {
-    alias: {
-      'react-router-dom-v5-compat': resolve(__dirname, 'src/stubs/react-router-dom-v5-compat.ts'),
-    },
-  },
   build: {
     rollupOptions: {
       output: {
