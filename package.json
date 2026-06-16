@@ -13,6 +13,9 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@grafana/data": "^13.0.2",
+    "@grafana/schema": "^13.0.2",
+    "@grafana/ui": "^13.0.2",
     "@tailwindcss/vite": "^4.1.8",
     "axios": "^1.17.0",
     "clsx": "^2.1.1",
