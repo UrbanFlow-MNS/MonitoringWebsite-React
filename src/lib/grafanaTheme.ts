@@ -1,0 +1,88 @@
+import { createTheme } from '@grafana/data';
+
+export const urbanflowGrafanaTheme = createTheme({
+  colors: {
+    mode: 'light',
+    primary: {
+      main: '#6912E2',
+      text: '#FFFFFF',
+      border: '#6912E2',
+      shade: '#5A0DC0',
+      transparent: 'rgba(105, 18, 226, 0.1)',
+      name: 'purple',
+    },
+    secondary: {
+      main: '#F5F5F7',
+      shade: '#E5E5EA',
+      text: '#0A0A0A',
+      contrastText: '#0A0A0A',
+      border: '#E5E5EA',
+      transparent: 'rgba(245, 245, 247, 0.1)',
+      name: 'secondary',
+    },
+    background: {
+      canvas: '#F5F5F7',
+      primary: '#FFFFFF',
+      secondary: '#F5F5F7',
+    },
+    border: {
+      weak: '#E5E5EA',
+      medium: '#AEAEB2',
+      strong: '#6E6E73',
+    },
+    text: {
+      primary: '#0A0A0A',
+      secondary: '#6E6E73',
+      disabled: '#AEAEB2',
+      link: '#6912E2',
+      maxContrast: '#0A0A0A',
+    },
+    success: {
+      main: '#34C759',
+      text: '#FFFFFF',
+      border: '#34C759',
+      shade: '#2DAF4F',
+      transparent: 'rgba(52, 199, 89, 0.1)',
+      name: 'green',
+      contrastText: '#FFFFFF',
+    },
+    warning: {
+      main: '#FF9F0A',
+      text: '#FFFFFF',
+      border: '#FF9F0A',
+      shade: '#E58E09',
+      transparent: 'rgba(255, 159, 10, 0.1)',
+      name: 'orange',
+      contrastText: '#FFFFFF',
+    },
+    error: {
+      main: '#FF3B30',
+      text: '#FFFFFF',
+      border: '#FF3B30',
+      shade: '#E5352A',
+      transparent: 'rgba(255, 59, 48, 0.1)',
+      name: 'red',
+      contrastText: '#FFFFFF',
+    },
+    info: {
+      main: '#007AFF',
+      text: '#FFFFFF',
+      border: '#007AFF',
+      shade: '#006EE5',
+      transparent: 'rgba(0, 122, 255, 0.1)',
+      name: 'blue',
+      contrastText: '#FFFFFF',
+    },
+  },
+  typography: {
+    fontFamily: "'Outfit', sans-serif",
+    fontSize: 16,
+    fontWeightLight: 400,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+    fontWeightBold: 700,
+  },
+  shape: {
+    borderRadius: 10,
+  },
+});
