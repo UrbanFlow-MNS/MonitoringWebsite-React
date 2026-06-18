@@ -15,8 +15,7 @@ import ServiceRow from "../components/ServiceRow.tsx";
 
 function Dashboard() {
   useEffect(() => {
-    metricsStore.startPolling(15_000);
-    return () => metricsStore.stopPolling();
+    metricsStore.fetchAll();
   }, []);
 
   const { host, services, hostCpuSeries, hostMemSeries, isLoading, error, upCount, downCount, totalCount } = metricsStore;
@@ -27,7 +26,7 @@ function Dashboard() {
     <AppShell>
       <Topbar
         title="Vue d'ensemble"
-        subtitle="Surveillance en temps réel — rafraîchissement toutes les 15s"
+        subtitle="Surveillance en temps réel"
       />
 
       <div className="flex-1 p-8 flex flex-col gap-6 bg-(--color-subtle)">
