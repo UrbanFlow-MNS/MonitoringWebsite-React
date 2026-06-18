@@ -29,16 +29,8 @@ export default defineConfig({
     tailwindcss(),
     reactRouterV5CompatStub(),
   ],
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-grafana': ['@grafana/ui', '@grafana/data', 'uplot'],
-          'vendor-state': ['mobx', 'mobx-react'],
-        },
-      },
-    },
+  optimizeDeps: {
+    exclude: ['react-router-dom-v5-compat'],
   },
   test: {
     coverage: {
