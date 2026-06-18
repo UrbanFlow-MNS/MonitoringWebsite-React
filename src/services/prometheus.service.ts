@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { PrometheusInstantResult, PrometheusRangeResult } from '../types/monitoring.types';
 
-const PROMETHEUS_BASE_URL = import.meta.env.PROMETHEUS_URL ?? 'http://localhost:9090';
+const PROMETHEUS_BASE_URL = import.meta.env.VITE_PROMETHEUS_URL ?? 'http://localhost:9090';
 
 const api = axios.create({ baseURL: PROMETHEUS_BASE_URL });
 

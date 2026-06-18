@@ -32,17 +32,6 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['react-router-dom-v5-compat'],
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-grafana': ['@grafana/ui', '@grafana/data', 'uplot'],
-          'vendor-state': ['mobx', 'mobx-react'],
-        },
-      },
-    },
-  },
   test: {
     coverage: {
       reporter: ['text', 'lcov']
