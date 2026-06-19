@@ -1,12 +1,12 @@
 import axios from 'axios';
 import type { PrometheusInstantResult, PrometheusRangeResult } from '../types/monitoring.types';
 
-const PROMETHEUS_BASE_URL = import.meta.env.PROMETHEUS_URL ?? 'http://localhost:9090';
+const PROMETHEUS_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 const api = axios.create({ baseURL: PROMETHEUS_BASE_URL });
 
 export async function queryInstant(promql: string): Promise<PrometheusInstantResult[]> {
-  const { data } = await api.get('/api/v1/query', { params: { query: promql } });
+  const { data } = await api.get('/api/monitoring/prometheus/api/v1/query', { params: { query: promql } });
   if (data.status !== 'success') throw new Error(data.error ?? 'Prometheus error');
   return data.data.result as PrometheusInstantResult[];
 }
@@ -17,7 +17,7 @@ export async function queryRange(
   end: number,
   step = '60s',
 ): Promise<PrometheusRangeResult[]> {
-  const { data } = await api.get('/api/v1/query_range', {
+  const { data } = await api.get('/api/monitoring/prometheus/api/v1/query_range', {
     params: { query: promql, start, end, step },
   });
   if (data.status !== 'success') throw new Error(data.error ?? 'Prometheus error');
@@ -33,7 +33,7 @@ export async function queryTargets(): Promise<{
     scrapeUrl: string;
   }[];
 }> {
-  const { data } = await api.get('/api/v1/targets');
+  const { data } = await api.get('/api/monitoring/prometheus/api/v1/targets');
   if (data.status !== 'success') throw new Error(data.error ?? 'Prometheus error');
   return data.data;
 }
