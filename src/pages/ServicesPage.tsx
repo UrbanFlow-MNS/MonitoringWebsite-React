@@ -9,8 +9,7 @@ import Topbar from "../components/Topbar.tsx";
 
 function ServicesPage() {
   useEffect(() => {
-    metricsStore.startPolling(15_000);
-    return () => metricsStore.stopPolling();
+    metricsStore.fetchAll();
   }, []);
 
   const { services, isLoading } = metricsStore;
