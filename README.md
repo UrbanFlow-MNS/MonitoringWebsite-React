@@ -52,3 +52,4 @@ export default tseslint.config({
   },
 })
 ```
+Il faut modifier ce README. Test ?
