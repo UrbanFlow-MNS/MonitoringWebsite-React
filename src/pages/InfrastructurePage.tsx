@@ -14,8 +14,7 @@ function InfrastructurePage() {
   const [range, setRange] = useState<'day' | 'week'>('day');
 
   useEffect(() => {
-    metricsStore.startPolling(15_000);
-    return () => metricsStore.stopPolling();
+    metricsStore.fetchAll();
   }, []);
 
   const {

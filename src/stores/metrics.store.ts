@@ -42,18 +42,7 @@ export class MetricsStore {
   error: string | null = null;
   lastUpdated: Date | null = null;
 
-  private timer: ReturnType<typeof setInterval> | null = null;
-
   constructor() { makeAutoObservable(this); }
-
-  startPolling(ms = 15_000) {
-    this.fetchAll();
-    this.timer = setInterval(() => this.fetchAll(), ms);
-  }
-
-  stopPolling() {
-    if (this.timer) { clearInterval(this.timer); this.timer = null; }
-  }
 
   async fetchAll() {
     runInAction(() => { this.isLoading = true; this.error = null; });
