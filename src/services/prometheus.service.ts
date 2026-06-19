@@ -1,9 +1,17 @@
 import axios from 'axios';
-import type { PrometheusInstantResult, PrometheusRangeResult } from '../types/monitoring.types';
+import type { PrometheusInstantResult, PrometheusRangeResult } from '@/types/monitoring.types';
 
 const PROMETHEUS_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 const api = axios.create({ baseURL: PROMETHEUS_BASE_URL });
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('uf_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export async function queryInstant(promql: string): Promise<PrometheusInstantResult[]> {
   const { data } = await api.get('/api/monitoring/prometheus/api/v1/query', { params: { query: promql } });
