@@ -29,12 +29,14 @@ export default defineConfig({
     tailwindcss(),
     reactRouterV5CompatStub(),
   ],
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+  },
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-grafana': ['@grafana/ui', '@grafana/data', 'uplot'],
+          'vendor-react': ['react', 'react-dom', 'react-router-dom', '@grafana/ui', '@grafana/data', 'uplot'],
           'vendor-state': ['mobx', 'mobx-react'],
         },
       },
