@@ -11,6 +11,7 @@ interface Props {
   color?: string;
   format?: (v: number) => string;
   height?: number;
+  xAxisFormat?: (ts: number) => string;
 }
 
 function hexToRgb(hex: string): string {
@@ -38,6 +39,7 @@ export default function AreaChartWidget({
   color = '#6912E2',
   format,
   height = 160,
+  xAxisFormat = formatTimeShort,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const plotRef = useRef<uPlot | null>(null);
@@ -78,7 +80,7 @@ export default function AreaChartWidget({
           border: { show: false },
           size: 30,
           font: '10px Outfit, sans-serif',
-          values: (_self, ticks) => ticks.map((t) => formatTimeShort(t * 1000)),
+          values: (_self, ticks) => ticks.map((t) => xAxisFormat(t * 1000)),
         },
         {
           stroke: '#AEAEB2',
@@ -172,7 +174,7 @@ export default function AreaChartWidget({
       plot.destroy();
       plotRef.current = null;
     };
-  }, [data, color, format, unit, height]);
+  }, [data, color, format, unit, height, xAxisFormat]);
 
   const lastValue =
     data.length > 0
