@@ -13,6 +13,13 @@ i18n
           welcome: 'Bienvenue sur notre application',
           login: 'Connexion',
           register: 'Inscription'
+        },
+        auth: {
+          access_denied: {
+            title: 'Accès refusé',
+            description: 'Cette application est réservée aux super-administrateurs.',
+            logout_action: 'Se déconnecter'
+          }
         }
       },
       en: {
@@ -20,9 +27,18 @@ i18n
           welcome: 'Welcome to our application',
           login: 'Login',
           register: 'Register'
+        },
+        auth: {
+          access_denied: {
+            title: 'Access denied',
+            description: 'This application is restricted to super administrators.',
+            logout_action: 'Log out'
+          }
         }
       }
     },
+    ns: ['translation', 'auth'],
+    defaultNS: 'translation',
     interpolation: {
       escapeValue: false
     }

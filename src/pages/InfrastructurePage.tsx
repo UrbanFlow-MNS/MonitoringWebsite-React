@@ -4,7 +4,7 @@ import { metricsStore } from '../stores/metrics.store';
 import StatCard from "../components/StatCard.tsx";
 import AppShell from "../layout/AppShell.tsx";
 import Topbar from "../components/Topbar.tsx";
-import {formatGB, formatPercent} from "../lib/formatters.ts";
+import {formatDayShort, formatGB, formatPercent} from "../lib/formatters.ts";
 import {cn} from "../lib/formatters.ts";
 import AreaChartWidget from "../components/AreaChartWidget.tsx";
 import Card from "../components/Card.tsx";
@@ -76,8 +76,8 @@ function InfrastructurePage() {
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <AreaChartWidget data={cpuData} title={cpuTitle} color="#6912E2" format={v => `${v.toFixed(1)}%`} height={200} />
-            <AreaChartWidget data={memData} title={memTitle} color="#007AFF" format={v => `${v.toFixed(1)}%`} height={200} />
+            <AreaChartWidget data={cpuData} title={cpuTitle} color="#6912E2" format={v => `${v.toFixed(1)}%`} height={200} xAxisFormat={range === 'week' ? formatDayShort : undefined} />
+            <AreaChartWidget data={memData} title={memTitle} color="#007AFF" format={v => `${v.toFixed(1)}%`} height={200} xAxisFormat={range === 'week' ? formatDayShort : undefined} />
           </div>
         </div>
 

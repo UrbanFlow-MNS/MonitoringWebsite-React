@@ -30,6 +30,10 @@ export function formatTimeShort(ts: number): string {
     return new Date(ts).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 }
 
+export function formatDayShort(ts: number): string {
+    return new Date(ts).toLocaleDateString('fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit' });
+}
+
 export function formatDate(dateStr: string): string {
     return new Date(dateStr).toLocaleDateString('fr-FR', {
         day: '2-digit', month: '2-digit', year: 'numeric',
