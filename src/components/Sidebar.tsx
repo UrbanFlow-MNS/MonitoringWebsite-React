@@ -61,7 +61,7 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="flex flex-col w-[232px] min-h-screen bg-(--color-bg) border-r border-(--color-border) shrink-0">
+    <aside className="flex flex-col w-[232px] h-screen sticky top-0 bg-(--color-bg) border-r border-(--color-border) shrink-0">
       <div className="flex items-center gap-3 px-5 h-16 border-b border-(--color-border)">
         <img src="/logo.png" alt="UrbanFlow" className="w-8 h-8 object-cover rounded-lg" />
         <div>
